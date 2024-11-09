@@ -48,5 +48,4 @@ jobs:
             --url=$LIQUIBASE_URL \
             --username=$LIQUIBASE_USERNAME \
             --password=$LIQUIBASE_PASSWORD \
-            --changeLogFile=db/changelog/db.changelog-master.xml \
             update
