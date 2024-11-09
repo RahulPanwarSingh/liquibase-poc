@@ -33,13 +33,13 @@ jobs:
           distribution: 'temurin'      # Specify the JDK distribution here, 'adoptopenjdk' is common
           
       - name: Install Liquibase CLI
-      run: |
+        run: |
          curl -L https://github.com/liquibase/liquibase/releases/download/v4.22.0/liquibase-4.22.0-linux-x86_64.tar.gz -o liquibase.tar.gz
          tar -xzvf liquibase.tar.gz
          sudo mv liquibase-4.22.0-linux-x86_64 /opt/liquibase
 
-    - name: Set LIQUIBASE_HOME environment variable
-      run: echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
+      - name: Set LIQUIBASE_HOME environment variable
+        run: echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
 
-    - name: Run Liquibase update
-      run: $LIQUIBASE_HOME/liquibase --url=jdbc:mysql://uddezthursf9thpo:cApIZdrCriOROfE3LumI@bkxg4abnmdjq9yqqpy7g-mysql.services.clever-cloud.com:3306/bkxg4abnmdjq9yqqpy7g --username=uddezthursf9thpo --password=cApIZdrCriOROfE3LumI update
+      - name: Run Liquibase update
+        run: $LIQUIBASE_HOME/liquibase --url=jdbc:mysql://uddezthursf9thpo:cApIZdrCriOROfE3LumI@bkxg4abnmdjq9yqqpy7g-mysql.services.clever-cloud.com:3306/bkxg4abnmdjq9yqqpy7g --username=uddezthursf9thpo --password=cApIZdrCriOROfE3LumI update
