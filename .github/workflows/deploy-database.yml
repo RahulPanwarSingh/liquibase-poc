@@ -37,6 +37,8 @@ jobs:
           curl -L "https://github.com/liquibase/liquibase/releases/download/v4.30.0/liquibase-4.30.0.tar.gz" -o liquibase.tar.gz
           tar -xzvf liquibase.tar.gz
           echo "Extraction complete. Listing extracted files:"
+          pwd
+          cd ../
           ls -l  # List files to check the extracted contents
 
       - name: Move Liquibase to /opt/liquibase
