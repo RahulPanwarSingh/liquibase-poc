@@ -54,6 +54,8 @@ jobs:
           else
             echo "No valid Liquibase directory found to move!"
             sudo ls -l
+            sudo cd ../
+            sudo ls -l
             exit 1
           fi
 
