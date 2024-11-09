@@ -34,42 +34,27 @@ jobs:
           
       - name: Install Liquibase CLI
         run: |
-          curl -L "https://github.com/liquibase/liquibase/releases/download/v4.30.0/liquibase-4.30.0.tar.gz" -o liquibase.tar.gz
-          tar -xzvf liquibase.tar.gz
+          curl -L "https://github.com/liquibase/liquibase/releases/download/v4.30.0/liquibase-4.30.0.tar.gz" -o /home/runner/work/liquibase-poc/liquibase-install/liquibase.tar.gz
+          echo "Downloaded Liquibase tarball"
+
+           # Extract the tarball into the separate directory
+          tar -xzvf /home/runner/work/liquibase-poc/liquibase-install/liquibase.tar.gz -C /home/runner/work/liquibase-poc/liquibase-install
           echo "Extraction complete. Listing extracted files:"
-          ls -l  # List files to check the extracted contents
-          echo "2nd level extraction"
-          pwd
-          cd ../
-          pwd
-          ls -l  # List files to check the extracted contents
-          echo "2nd level extraction"
-          pwd
-          cd ../
-          pwd
-          ls -l  # List files to check the extracted contents
+          ls -l /home/runner/work/liquibase-poc/liquibase-install   # List extracted files
 
-
-      - name: check Liquibase directory location
-        run: ls -l
-            pwd
-            find "$(pwd)" -type d -name "liquibase-4.30.0"
-            cd ../
-            pwd
-            find "$(pwd)" -type d -name "liquibase-4.30.0"
-            ls -l
-            echo "Grap all forlder liquibase-4.30.0"         
+        
 
       - name: Move Liquibase to /opt/liquibase
         run: |
           echo "Attempting to move the extracted Liquibase folder..."
-          # Check if the folder exists before attempting to move it
-          if [ -d "liquibase-4.30.0" ]; then
+          
+          # Check if the directory exists and move it
+          if [ -d "/home/runner/work/liquibase-poc/liquibase-install/liquibase-4.30.0" ]; then
             echo "Moving liquibase-4.30.0 to /opt/liquibase"
-            sudo mv liquibase-4.30.0 /opt/liquibase
-          elif [ -d "liquibase-4.30.0-linux-x86_64" ]; then
+            sudo mv /home/runner/work/liquibase-poc/liquibase-install/liquibase-4.30.0 /opt/liquibase
+          elif [ -d "/home/runner/work/liquibase-poc/liquibase-install/liquibase-4.30.0-linux-x86_64" ]; then
             echo "Moving liquibase-4.30.0-linux-x86_64 to /opt/liquibase"
-            sudo mv liquibase-4.30.0-linux-x86_64 /opt/liquibase
+            sudo mv /home/runner/work/liquibase-poc/liquibase-install/liquibase-4.30.0-linux-x86_64 /opt/liquibase
           else
             echo "No valid Liquibase directory found to move!"
             exit 1
