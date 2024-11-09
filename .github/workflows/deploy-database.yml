@@ -43,7 +43,7 @@ jobs:
 
       - name: Move Liquibase to /opt/liquibase
         run: |
-          sudo mv liquibase-4.30.0 /opt/liquibase || sudo mv liquibase-4.30.0-linux-x86_64 /opt/liquibase
+          sudo mv liquibase-poc /opt/liquibase || sudo mv liquibase-4.30.0-linux-x86_64 /opt/liquibase
 
       - name: Set LIQUIBASE_HOME environment variable
         run: echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
