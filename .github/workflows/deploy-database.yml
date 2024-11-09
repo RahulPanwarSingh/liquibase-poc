@@ -29,8 +29,8 @@ jobs:
       - name: Set up JDK (needed for Liquibase)
         uses: actions/setup-java@v2
         with:
-          java-version: '11'
-          distribution: 'adoptopenjdk'  # Specify the distribution here
+          java-version: '11'                # Specify the Java version you need
+          distribution: 'adoptopenjdk'      # Specify the JDK distribution here, 'adoptopenjdk' is common
 
       - name: Install Liquibase
         run: |
