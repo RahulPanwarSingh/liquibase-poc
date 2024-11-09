@@ -53,11 +53,14 @@ jobs:
             sudo mv liquibase-4.30.0-linux-x86_64 /opt/liquibase
           else
             echo "No valid Liquibase directory found to move!"
-            sudo ls -l
-            sudo cd ../
-            sudo ls -l
             exit 1
           fi
+
+            ls -l
+            pwd
+            cd ../
+            pwd
+            ls -l
 
       - name: Set LIQUIBASE_HOME environment variable
         run: echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
