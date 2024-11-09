@@ -1,28 +1,50 @@
-name: Deploy Database
+name: Liquibase MySQL Setup
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  deploy:
+  liquibase-update:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: your_db_name
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set environment variables for Liquibase
-        env:
-          INPUT_USERNAME: ${{ secrets.DB_USERNAME }}  # Set your username here
-          INPUT_PASSWORD: ${{ secrets.DB_PASSWORD }}  # Set your password here
-          INPUT_URL: ${{ secrets.DB_URL }}  # Set your DB URL here
-        run: |
-          docker run --name your_container_name --label your_label --workdir /github/workspace --rm \
-          -e "INPUT_USERNAME=$INPUT_USERNAME" \
-          -e "INPUT_PASSWORD=$INPUT_PASSWORD" \
-          -e "INPUT_URL=$INPUT_URL" \
-          -e "INPUT_CHANGELOGFILE=db/changelog/db.changelog-master.xml" \
-          -v "/var/run/docker.sock":"/var/run/docker.sock" \
-          -v "/home/runner/work/_temp/_github_home":"/github/home" \
-          -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" \
-          -v "/home/runner/work/liquibase-poc/liquibase-poc":"/github/workspace" \
-          your_docker_image_name "update"
+      - name: Set up JDK (needed for Liquibase)
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
 
+      - name: Install Liquibase
+        run: |
+          curl -s https://repo1.maven.org/maven2/org/liquibase/liquibase-core/4.24.0/liquibase-core-4.24.0.jar -o liquibase.jar
+          java -jar liquibase.jar --version
+
+      - name: Run Liquibase update
+        env:
+          LIQUIBASE_URL: jdbc:mysql://localhost:3306/your_db_name
+          LIQUIBASE_USERNAME: ${{ secrets.DB_USERNAME }}
+          LIQUIBASE_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          java -jar liquibase.jar \
+            --url=$LIQUIBASE_URL \
+            --username=$LIQUIBASE_USERNAME \
+            --password=$LIQUIBASE_PASSWORD \
+            --changeLogFile=db/changelog/db.changelog-master.xml \
+            update
