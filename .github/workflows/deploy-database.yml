@@ -37,8 +37,16 @@ jobs:
           curl -L "https://github.com/liquibase/liquibase/releases/download/v4.30.0/liquibase-4.30.0.tar.gz" -o liquibase.tar.gz
           tar -xzvf liquibase.tar.gz
           echo "Extraction complete. Listing extracted files:"
+          ls -l  # List files to check the extracted contents
+          echo "2nd level extraction"
           pwd
           cd ../
+          pwd
+          ls -l  # List files to check the extracted contents
+          echo "2nd level extraction"
+          pwd
+          cd ../
+          pwd
           ls -l  # List files to check the extracted contents
 
       - name: Move Liquibase to /opt/liquibase
@@ -56,11 +64,17 @@ jobs:
             exit 1
           fi
 
-            ls -l
+      - name: check Liquibase directory location
+        run: ls -l
             pwd
+            find "$(pwd)" -type d -name "liquibase-4.30.0"
             cd ../
             pwd
+            find "$(pwd)" -type d -name "liquibase-4.30.0"
             ls -l
+            echo "Grap all forlder liquibase-4.30.0"
+           
+
 
       - name: Set LIQUIBASE_HOME environment variable
         run: echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
