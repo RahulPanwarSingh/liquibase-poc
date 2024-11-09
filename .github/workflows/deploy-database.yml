@@ -43,9 +43,18 @@ jobs:
 
       - name: Move Liquibase to /opt/liquibase
         run: |
-          sudo pwd
-          sudo ls -l
-          sudo mv liquibase-poc /opt/liquibase || sudo mv liquibase-4.30.0-linux-x86_64 /opt/liquibase
+          echo "Attempting to move the extracted Liquibase folder..."
+          # Check if the folder exists before attempting to move it
+          if [ -d "liquibase-4.30.0" ]; then
+            echo "Moving liquibase-4.30.0 to /opt/liquibase"
+            sudo mv liquibase-4.30.0 /opt/liquibase
+          elif [ -d "liquibase-4.30.0-linux-x86_64" ]; then
+            echo "Moving liquibase-4.30.0-linux-x86_64 to /opt/liquibase"
+            sudo mv liquibase-4.30.0-linux-x86_64 /opt/liquibase
+          else
+            echo "No valid Liquibase directory found to move!"
+            exit 1
+          fi
 
       - name: Set LIQUIBASE_HOME environment variable
         run: echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
