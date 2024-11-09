@@ -49,16 +49,27 @@ jobs:
           echo "Attempting to move the extracted Liquibase folder..."
           
           # Check if the directory exists and move it
-          if [ -d "/home/runner/work/liquibase-poc/liquibase-install/liquibase-4.30.0" ]; then
-            echo "Moving liquibase-4.30.0 to /opt/liquibase"
-            sudo mv /home/runner/work/liquibase-poc/liquibase-install/liquibase-4.30.0 /opt/liquibase
-          elif [ -d "/home/runner/work/liquibase-poc/liquibase-install/liquibase-4.30.0-linux-x86_64" ]; then
-            echo "Moving liquibase-4.30.0-linux-x86_64 to /opt/liquibase"
-            sudo mv /home/runner/work/liquibase-poc/liquibase-install/liquibase-4.30.0-linux-x86_64 /opt/liquibase
-          else
-            echo "No valid Liquibase directory found to move!"
-            exit 1
-          fi
+          # List the current directory to see where you are
+          ls -l
+          pwd
+
+          # Search for the 'liquibase-4.30.0' folder starting from the current directory
+          find "$(pwd)" -type d -name "liquibase-4.30.0"
+
+          # Go one level up and print the directory structure
+          cd ..
+          pwd
+
+          # Search for the 'liquibase-4.30.0' folder from the new directory
+          find "$(pwd)" -type d -name "liquibase-4.30.0"
+
+          # List contents of the parent directory to inspect
+          ls -l
+
+          # Grab all directories named 'liquibase-4.30.0' from the file system
+          echo "Grabbing all folders named liquibase-4.30.0"
+          find / -type d -name "liquibase-4.30.0"
+
 
 
 
