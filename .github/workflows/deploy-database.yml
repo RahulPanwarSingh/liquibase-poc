@@ -41,8 +41,8 @@ jobs:
       - name: Run Liquibase update
         env:
           LIQUIBASE_URL: jdbc:mysql://uddezthursf9thpo:cApIZdrCriOROfE3LumI@bkxg4abnmdjq9yqqpy7g-mysql.services.clever-cloud.com:3306/bkxg4abnmdjq9yqqpy7g
-          LIQUIBASE_USERNAME: ${{ secrets.DB_USERNAME }}
-          LIQUIBASE_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          LIQUIBASE_USERNAME: uddezthursf9thpo
+          LIQUIBASE_PASSWORD: cApIZdrCriOROfE3LumI
         run: |
           java -jar liquibase.jar \
             --url=$LIQUIBASE_URL \
