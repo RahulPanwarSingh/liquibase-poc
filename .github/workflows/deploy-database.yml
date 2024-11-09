@@ -1,0 +1,15 @@
+name: Deploy Database
+
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: liquibase/liquibase-github-action@v2
+      with:
+        operation: update
+        url: "mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
+        changeLogFile: "db/changelog/db.changelog-master.xml"
