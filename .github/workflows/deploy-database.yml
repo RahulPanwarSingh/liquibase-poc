@@ -34,9 +34,9 @@ jobs:
           
       - name: Install Liquibase CLI
         run: |
-         curl -L https://github.com/liquibase/liquibase/releases/download/v4.22.0/liquibase-4.22.0-linux-x86_64.tar.gz -o liquibase.tar.gz
-         tar -xzvf liquibase.tar.gz
-         sudo mv liquibase-4.22.0-linux-x86_64 /opt/liquibase
+          curl -L "https://github.com/liquibase/liquibase/releases/download/v4.30.0/liquibase-4.30.0.tar.gz" -o liquibase.tar.gz
+          tar -xzvf liquibase.tar.gz
+          sudo mv liquibase-4.30.0 /opt/liquibase
 
       - name: Set LIQUIBASE_HOME environment variable
         run: echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
