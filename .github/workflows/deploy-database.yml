@@ -53,6 +53,7 @@ jobs:
             sudo mv liquibase-4.30.0-linux-x86_64 /opt/liquibase
           else
             echo "No valid Liquibase directory found to move!"
+            sudo ls -l
             exit 1
           fi
 
