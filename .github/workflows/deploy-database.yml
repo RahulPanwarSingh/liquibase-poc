@@ -43,6 +43,8 @@ jobs:
 
       - name: Move Liquibase to /opt/liquibase
         run: |
+          sudo pwd
+          sudo ls -l
           sudo mv liquibase-poc /opt/liquibase || sudo mv liquibase-4.30.0-linux-x86_64 /opt/liquibase
 
       - name: Set LIQUIBASE_HOME environment variable
