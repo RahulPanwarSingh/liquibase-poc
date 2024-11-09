@@ -6,10 +6,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3  # Updated to use v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - uses: liquibase/liquibase-github-action@v2
-      with:
-        operation: update
-        url: "mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}"
-        changeLogFile: "db/changelog/db.changelog-master.xml"
+      - name: Set environment variables for Liquibase
+        env:
+          INPUT_USERNAME: ${{ secrets.DB_USERNAME }}  # Set your username here
+          INPUT_PASSWORD: ${{ secrets.DB_PASSWORD }}  # Set your password here
+          INPUT_URL: ${{ secrets.DB_URL }}  # Set your DB URL here
+        run: |
+          docker run --name your_container_name --label your_label --workdir /github/workspace --rm \
+          -e "INPUT_USERNAME=$INPUT_USERNAME" \
+          -e "INPUT_PASSWORD=$INPUT_PASSWORD" \
+          -e "INPUT_URL=$INPUT_URL" \
+          -e "INPUT_CHANGELOGFILE=db/changelog/db.changelog-master.xml" \
+          -v "/var/run/docker.sock":"/var/run/docker.sock" \
+          -v "/home/runner/work/_temp/_github_home":"/github/home" \
+          -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" \
+          -v "/home/runner/work/liquibase-poc/liquibase-poc":"/github/workspace" \
+          your_docker_image_name "update"
+
