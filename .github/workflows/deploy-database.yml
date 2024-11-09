@@ -49,6 +49,17 @@ jobs:
           pwd
           ls -l  # List files to check the extracted contents
 
+
+      - name: check Liquibase directory location
+        run: ls -l
+            pwd
+            find "$(pwd)" -type d -name "liquibase-4.30.0"
+            cd ../
+            pwd
+            find "$(pwd)" -type d -name "liquibase-4.30.0"
+            ls -l
+            echo "Grap all forlder liquibase-4.30.0"         
+
       - name: Move Liquibase to /opt/liquibase
         run: |
           echo "Attempting to move the extracted Liquibase folder..."
@@ -64,15 +75,7 @@ jobs:
             exit 1
           fi
 
-      - name: check Liquibase directory location
-        run: ls -l
-            pwd
-            find "$(pwd)" -type d -name "liquibase-4.30.0"
-            cd ../
-            pwd
-            find "$(pwd)" -type d -name "liquibase-4.30.0"
-            ls -l
-            echo "Grap all forlder liquibase-4.30.0"
+     
            
 
 
