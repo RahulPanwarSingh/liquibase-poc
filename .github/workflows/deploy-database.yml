@@ -48,7 +48,12 @@ jobs:
 
       - name: Download MySQL JDBC Driver
         run: |
+          # Remove any existing file to avoid conflicts
+          rm -f /opt/liquibase/lib/mysql-connector-java-8.0.32.jar
+          # Download the MySQL Connector/J
           curl -L "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.32/mysql-connector-java-8.0.32.jar" -o /opt/liquibase/lib/mysql-connector-java-8.0.32.jar
+          # Verify that the file was downloaded correctly
+          file /opt/liquibase/lib/mysql-connector-java-8.0.32.jar
           ls -l /opt/liquibase/lib  # List contents to confirm download
 
       - name: Set LIQUIBASE_HOME environment variable
