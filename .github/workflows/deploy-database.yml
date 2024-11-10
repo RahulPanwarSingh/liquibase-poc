@@ -69,8 +69,9 @@ jobs:
 
       - name: Run Liquibase update and check status
         run: |
-          cp -r /opt/liquibase/* $LIQUIBASE_HOME
+          
           sudo find / -name "example-changelog.sql"
+          echo $LIQUIBASE_HOME
           $LIQUIBASE_HOME/liquibase --url="jdbc:mysql://uddezthursf9thpo:cApIZdrCriOROfE3LumI@bkxg4abnmdjq9yqqpy7g-mysql.services.clever-cloud.com:3306/bkxg4abnmdjq9yqqpy7g" \
           --username=uddezthursf9thpo \
           --password=cApIZdrCriOROfE3LumI \
