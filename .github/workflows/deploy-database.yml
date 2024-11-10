@@ -45,6 +45,12 @@ jobs:
           sudo mv * /opt/liquibase/
           ls -l /opt/liquibase
 
+
+      - name: Download MySQL JDBC Driver
+        run: |
+          curl -L "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.32/mysql-connector-java-8.0.32.jar" -o /opt/liquibase/lib/mysql-connector-java-8.0.32.jar
+          ls -l /opt/liquibase/lib  # List contents to confirm download
+
       - name: Set LIQUIBASE_HOME environment variable
         run: echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
 
