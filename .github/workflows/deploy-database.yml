@@ -37,7 +37,9 @@ jobs:
           curl -L "https://github.com/liquibase/liquibase/releases/download/v4.30.0/liquibase-4.30.0.tar.gz" -o liquibase.tar.gz
           tar -xzvf liquibase.tar.gz
           sudo mkdir -p /opt/liquibase
-          sudo mv * /opt/liquibase/
+          # sudo mv * /opt/liquibase/
+          rsync -av --exclude='liquibase-poc' ./ /opt/liquibase/
+
 
 
       - name: Download MySQL JDBC Driver
@@ -71,4 +73,4 @@ jobs:
           $LIQUIBASE_HOME/liquibase --url="jdbc:mysql://uddezthursf9thpo:cApIZdrCriOROfE3LumI@bkxg4abnmdjq9yqqpy7g-mysql.services.clever-cloud.com:3306/bkxg4abnmdjq9yqqpy7g" \
           --username=uddezthursf9thpo \
           --password=cApIZdrCriOROfE3LumI \
-          --changelog-file=/opt/liquibase/liquibase-poc/liquibase-poc/example-changelog.sql updatesql --logLevel=debug
+          --changelog-file=example-changelog.sql updatesql --logLevel=debug
