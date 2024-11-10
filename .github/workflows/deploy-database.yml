@@ -39,15 +39,21 @@ jobs:
           sudo mkdir -p /opt/liquibase
           sudo mv * /opt/liquibase/
 
+
       - name: Download MySQL JDBC Driver
         run: |
           # Clean up any existing file
           rm -f /opt/liquibase/lib/mysql-connector-java-8.0.32.jar
-          # Download the MySQL JDBC Connector
-          curl -L "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.32/mysql-connector-java-8.0.32.jar" -o /opt/liquibase/lib/mysql-connector-java-8.0.32.jar
-          # Verify download
-          file /opt/liquibase/lib/mysql-connector-java-8.0.32.jar
-          ls -l /opt/liquibase/lib
+          # Download the MySQL JDBC Connector with a retry and error check
+          curl -fSL "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.32/mysql-connector-java-8.0.32.jar" -o /opt/liquibase/lib/mysql-connector-java-8.0.32.jar
+          # Verify download is a JAR file
+          if file /opt/liquibase/lib/mysql-connector-java-8.0.32.jar | grep -q "Java archive"; then
+            echo "MySQL JDBC driver downloaded successfully."
+          else
+            echo "Download failed: file is not a valid JAR." >&2
+            exit 1
+          fi
+
 
       - name: Set Environment Variables for Liquibase
         run: |
