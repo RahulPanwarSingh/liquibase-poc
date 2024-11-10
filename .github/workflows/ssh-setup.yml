@@ -1,9 +1,7 @@
 name: SSH Setup for Action Runner
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   build:
