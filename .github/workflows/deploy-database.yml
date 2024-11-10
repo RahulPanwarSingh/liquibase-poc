@@ -62,6 +62,9 @@ jobs:
           echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
           echo "CLASSPATH=/opt/liquibase/lib/mysql-connector-java-8.0.32.jar" >> $GITHUB_ENV
 
+      - name: Check if Liquibase is available
+        run: liquibase --version
+
       - name: Run Liquibase update and check status
         run: |
           echo $LIQUIBASE_HOME
