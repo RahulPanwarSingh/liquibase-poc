@@ -1,0 +1,28 @@
+name: Create Pull Request
+
+on:
+  push:
+    branches:
+      - main # Trigger the action when changes are pushed to the 'main' branch
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Get the last commit message
+      - name: Get last commit message
+        id: commit
+        run: echo "::set-output name=commit_message::$(git log -1 --pretty=%B)"
+      
+      # Create the pull request
+      - name: Create Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub token for authentication
+        run: |
+          # Create PR using the last commit message as the title
+          gh pr create --base main --head feature-branch --title "${{ steps.commit.outputs.commit_message }}" --body "This is an automated pull request created from the last commit."
