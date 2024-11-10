@@ -60,12 +60,9 @@ jobs:
             # List the contents of /opt/liquibase to verify
             ls -l /opt/liquibase
 
-
       - name: Set LIQUIBASE_HOME environment variable
         run: echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
 
       - name: Run Liquibase update
-             
         run:
-
-            $LIQUIBASE_HOME/liquibase --url=jdbc:mysql://uddezthursf9thpo:cApIZdrCriOROfE3LumI@bkxg4abnmdjq9yqqpy7g-mysql.services.clever-cloud.com:3306/bkxg4abnmdjq9yqqpy7g --username=uddezthursf9thpo --password=cApIZdrCriOROfE3LumI --changelog-file=example-changelog.sql updatesql --logLevel=debug
+          $LIQUIBASE_HOME/liquibase --url=jdbc:mysql://uddezthursf9thpo:cApIZdrCriOROfE3LumI@bkxg4abnmdjq9yqqpy7g-mysql.services.clever-cloud.com:3306/bkxg4abnmdjq9yqqpy7g --username=uddezthursf9thpo --password=cApIZdrCriOROfE3LumI --changelog-file=example-changelog.sql updatesql --logLevel=debug
