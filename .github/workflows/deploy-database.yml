@@ -1,0 +1,68 @@
+name: Liquibase MySQL Setup
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  liquibase-update:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: your_db_name
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK (needed for Liquibase)
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'                # Specify the Java version you need
+          distribution: 'temurin'      # Specify the JDK distribution here, 'adoptopenjdk' is common
+          
+      - name: Install Liquibase CLI
+        run: |
+          curl -L "https://github.com/liquibase/liquibase/releases/download/v4.30.0/liquibase-4.30.0.tar.gz" -o liquibase.tar.gz
+          tar -xzvf liquibase.tar.gz
+          echo "Extraction complete. Listing extracted files:"
+          ls -l  # List files to check the extracted contents
+          echo "2nd level extraction"
+          pwd
+          cd ../
+          pwd
+          ls -l  # List files to check the extracted contents
+          echo "2nd level extraction"
+          pwd
+          cd ../
+          pwd
+          ls -l  # List files to check the extracted contents
+
+
+     - name: Move Liquibase to /opt/liquibase
+        run: |
+            # Ensure the target directory exists
+            sudo mkdir -p /opt/liquibase
+            # Move all files from the current directory to /opt/liquibase
+            sudo mv * /opt/liquibase/
+
+            # List the contents of /opt/liquibase to verify
+            ls -l /opt/liquibase
+
+      - name: Set LIQUIBASE_HOME environment variable
+        run: echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
+
+      - name: Run Liquibase update
+        run:
+          $LIQUIBASE_HOME/liquibase --url=jdbc:mysql://uddezthursf9thpo:cApIZdrCriOROfE3LumI@bkxg4abnmdjq9yqqpy7g-mysql.services.clever-cloud.com:3306/bkxg4abnmdjq9yqqpy7g --username=uddezthursf9thpo --password=cApIZdrCriOROfE3LumI --changelog-file=example-changelog.sql updatesql --logLevel=debug
