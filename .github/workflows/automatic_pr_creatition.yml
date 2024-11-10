@@ -3,14 +3,14 @@ name: Create Pull Request
 on:
   push:
     branches:
-      - main # Trigger the action when changes are pushed to the 'main' branch
+      - main  # Trigger the action when pushing to 'main' branch
 
 jobs:
   create-pr:
     runs-on: ubuntu-latest
-    
+
     steps:
-      # Checkout code from the repository
+      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -18,11 +18,12 @@ jobs:
       - name: Get last commit message
         id: commit
         run: echo "::set-output name=commit_message::$(git log -1 --pretty=%B)"
-      
-      # Create the pull request
+
+      # Create the Pull Request using the PAT for authentication
       - name: Create Pull Request
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub token for authentication
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.MY_PAT }}  # Use the PAT stored as a secret
         run: |
-          # Create PR using the last commit message as the title
-          gh pr create --base main --head feature-branch --title "${{ steps.commit.outputs.commit_message }}" --body "This is an automated pull request created from the last commit."
+          PR_TITLE="${{ steps.commit.outputs.commit_message }}"
+          gh auth login --with-token <<< "${{ secrets.MY_PAT }}"  # Authenticate using the PAT
+          gh pr create --base main --head feature-branch --title "$PR_TITLE" --body "Automated PR created using PAT."
