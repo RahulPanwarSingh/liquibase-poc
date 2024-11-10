@@ -1,0 +1,39 @@
+name: SSH Setup for Action Runner
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout your code (if needed)
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up SSH
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
+      # Step 3: Start SSH server
+      - name: Start SSH service
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openssh-server
+          sudo service ssh start
+
+      # Optional: Add a test step to confirm SSH is running
+      - name: Verify SSH is running
+        run: |
+          ps aux | grep sshd
+
+      - name: Get runner's IP address
+        run: |
+          curl -s ifconfig.me
+
