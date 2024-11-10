@@ -35,9 +35,11 @@ jobs:
       - name: Install Liquibase CLI
         run: |
           curl -L "https://github.com/liquibase/liquibase/releases/download/v4.30.0/liquibase-4.30.0.tar.gz" -o liquibase.tar.gz
-          tar -xzvf liquibase.tar.gz
+          # tar -xzvf liquibase.tar.gz
+          # sudo mkdir -p /opt/liquibase
+          # sudo mv * /opt/liquibase/
           sudo mkdir -p /opt/liquibase
-          sudo mv * /opt/liquibase/
+          sudo tar -xzvf liquibase.tar.gz -C /opt/liquibase --strip-components=1
          
 
 
@@ -75,4 +77,4 @@ jobs:
           $LIQUIBASE_HOME/liquibase --url="jdbc:mysql://uddezthursf9thpo:cApIZdrCriOROfE3LumI@bkxg4abnmdjq9yqqpy7g-mysql.services.clever-cloud.com:3306/bkxg4abnmdjq9yqqpy7g" \
           --username=uddezthursf9thpo \
           --password=cApIZdrCriOROfE3LumI \
-          --changelog-file=example-changelog1.sql updatesql --logLevel=debug
+          --changelog-file=example-changelog.sql updatesql --logLevel=debug
