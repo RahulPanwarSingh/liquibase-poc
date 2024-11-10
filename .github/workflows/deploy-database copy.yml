@@ -61,8 +61,6 @@ jobs:
             ls -l /opt/liquibase
 
 
-
-
       - name: Set LIQUIBASE_HOME environment variable
         run: echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
 
