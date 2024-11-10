@@ -74,11 +74,10 @@ jobs:
           sudo find / -name "example-changelog.sql"
           echo $LIQUIBASE_HOME
           ls -l $LIQUIBASE_HOME
-          cd liquibase_poc/
-          pwd
+          echo $LIQUIBASE_HOME
           ls -l
           pwd
           $LIQUIBASE_HOME/liquibase --url="jdbc:mysql://uddezthursf9thpo:cApIZdrCriOROfE3LumI@bkxg4abnmdjq9yqqpy7g-mysql.services.clever-cloud.com:3306/bkxg4abnmdjq9yqqpy7g" \
           --username=uddezthursf9thpo \
           --password=cApIZdrCriOROfE3LumI \
-          --changelog-file=example-changelog.sql updatesql --logLevel=debug
+          --changelog-file=$LIQUIBASE_HOME/example-changelog.sql updatesql --logLevel=debug
