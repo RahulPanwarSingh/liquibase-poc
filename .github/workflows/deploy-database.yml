@@ -36,29 +36,27 @@ jobs:
         run: |
           curl -L "https://github.com/liquibase/liquibase/releases/download/v4.30.0/liquibase-4.30.0.tar.gz" -o liquibase.tar.gz
           tar -xzvf liquibase.tar.gz
-          echo "Extraction complete. Listing extracted files:"
-          ls -l
-
-      - name: Move Liquibase to /opt/liquibase
-        run: |
           sudo mkdir -p /opt/liquibase
           sudo mv * /opt/liquibase/
-          ls -l /opt/liquibase
-
 
       - name: Download MySQL JDBC Driver
         run: |
-          # Remove any existing file to avoid conflicts
+          # Clean up any existing file
           rm -f /opt/liquibase/lib/mysql-connector-java-8.0.32.jar
-          # Download the MySQL Connector/J
+          # Download the MySQL JDBC Connector
           curl -L "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.32/mysql-connector-java-8.0.32.jar" -o /opt/liquibase/lib/mysql-connector-java-8.0.32.jar
-          # Verify that the file was downloaded correctly
+          # Verify download
           file /opt/liquibase/lib/mysql-connector-java-8.0.32.jar
-          ls -l /opt/liquibase/lib  # List contents to confirm download
+          ls -l /opt/liquibase/lib
 
-      - name: Set LIQUIBASE_HOME environment variable
-        run: echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
+      - name: Set Environment Variables for Liquibase
+        run: |
+          echo "LIQUIBASE_HOME=/opt/liquibase" >> $GITHUB_ENV
+          echo "CLASSPATH=/opt/liquibase/lib/mysql-connector-java-8.0.32.jar" >> $GITHUB_ENV
 
       - name: Run Liquibase update and check status
         run: |
-            $LIQUIBASE_HOME/liquibase --url="jdbc:mysql://uddezthursf9thpo:cApIZdrCriOROfE3LumI@bkxg4abnmdjq9yqqpy7g-mysql.services.clever-cloud.com:3306/bkxg4abnmdjq9yqqpy7g?driver=com.mysql.cj.jdbc.Driver" --username=uddezthursf9thpo --password=cApIZdrCriOROfE3LumI --changelog-file=example-changelog.sql updatesql --logLevel=debug
+          $LIQUIBASE_HOME/liquibase --url="jdbc:mysql://uddezthursf9thpo:cApIZdrCriOROfE3LumI@bkxg4abnmdjq9yqqpy7g-mysql.services.clever-cloud.com:3306/bkxg4abnmdjq9yqqpy7g" \
+          --username=uddezthursf9thpo \
+          --password=cApIZdrCriOROfE3LumI \
+          --changelog-file=example-changelog.sql updatesql --logLevel=debug
